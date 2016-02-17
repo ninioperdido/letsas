@@ -1,0 +1,15 @@
+diff -urN /usr/portage/x11-proto/xcb-proto/xcb-proto-1.8-r3.ebuild xcb-proto-1.8-r3.ebuild
+--- /usr/portage/x11-proto/xcb-proto/xcb-proto-1.8-r3.ebuild	2013-10-08 07:31:39.000000000 +0200
++++ xcb-proto-1.8-r3.ebuild	2013-11-29 17:10:50.392000000 +0100
+@@ -22,6 +22,11 @@
+ DEPEND="${RDEPEND}
+ 	dev-libs/libxml2"
+ 
++src_prepare() {
++    cd ${S}/xcbgen
++	epatch "${FILESDIR}/1.8-r3-fix-expression-len.patch" 
++}
++
+ src_configure() {
+ 	xorg-2_src_configure
+ 	#Note: multilib is not supported with python, therefore use only one ABI

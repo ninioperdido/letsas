@@ -1,0 +1,120 @@
+--- a/src/winmenu.c	2014-02-20 18:41:19.299719019 +0100
++++ b/src/winmenu.c	2014-02-20 20:46:03.871969665 +0100
+@@ -20,8 +20,8 @@
+ #include "misc.h"
+ #include "root.h"
+ 
+-static const char *SENDTO_TEXT = "Send To";
+-static const char *LAYER_TEXT = "Layer";
++static const char *SENDTO_TEXT = "Enviar A";
++static const char *LAYER_TEXT = "Capa";
+ 
+ static Menu *CreateWindowMenu();
+ static void RunWindowCommand(const MenuAction *action);
+@@ -76,31 +76,31 @@
+    /* Note that items are added in reverse order of display. */
+ 
+    if(!(client->state.status & STAT_WMDIALOG)) {
+-      AddWindowMenuItem(menu, "Close", MA_CLOSE, 0);
+-      AddWindowMenuItem(menu, "Kill", MA_KILL, 0);
++      AddWindowMenuItem(menu, "Cerrar", MA_CLOSE, 0);
++      AddWindowMenuItem(menu, "Finalizar", MA_KILL, 0);
+       AddWindowMenuItem(menu, NULL, MA_NONE, 0);
+    }
+ 
+    if(client->state.status & (STAT_MAPPED | STAT_SHADED)) {
+       if(client->state.border & BORDER_RESIZE) {
+-         AddWindowMenuItem(menu, "Resize", MA_RESIZE, 0);
++         AddWindowMenuItem(menu, "Redimensionar", MA_RESIZE, 0);
+       }
+       if(client->state.border & BORDER_MOVE) {
+-         AddWindowMenuItem(menu, "Move", MA_MOVE, 0);
++         AddWindowMenuItem(menu, "Mover", MA_MOVE, 0);
+       }
+    }
+ 
+    if(client->state.border & BORDER_MIN) {
+ 
+       if(client->state.status & STAT_MINIMIZED) {
+-         AddWindowMenuItem(menu, "Restore", MA_RESTORE, 0);
++         AddWindowMenuItem(menu, "Restaurar", MA_RESTORE, 0);
+       } else {
+          if(client->state.status & STAT_SHADED) {
+-            AddWindowMenuItem(menu, "Unshade", MA_SHADE, 0);
++            AddWindowMenuItem(menu, "Desenrollar", MA_SHADE, 0);
+          } else {
+-            AddWindowMenuItem(menu, "Shade", MA_SHADE, 0);
++            AddWindowMenuItem(menu, "Enrollar", MA_SHADE, 0);
+          }
+-         AddWindowMenuItem(menu, "Minimize", MA_MINIMIZE, 0);
++         AddWindowMenuItem(menu, "Minimizar", MA_MINIMIZE, 0);
+       }
+ 
+    }
+@@ -109,17 +109,17 @@
+       && (client->state.status & STAT_MAPPED)) {
+ 
+       if(!(client->state.status & (STAT_HMAX | STAT_VMAX))) {
+-         AddWindowMenuItem(menu, "Maximize-y", MA_MAXIMIZE_V, 0);
++         AddWindowMenuItem(menu, "Maximizar-y", MA_MAXIMIZE_V, 0);
+       }
+ 
+       if(!(client->state.status & (STAT_HMAX | STAT_VMAX))) {
+-         AddWindowMenuItem(menu, "Maximize-x", MA_MAXIMIZE_H, 0);
++         AddWindowMenuItem(menu, "Maximizar-x", MA_MAXIMIZE_H, 0);
+       }
+ 
+       if((client->state.status & (STAT_HMAX | STAT_VMAX))) {
+-         AddWindowMenuItem(menu, "Restore", MA_MAXIMIZE, 0);
++         AddWindowMenuItem(menu, "Restaurar", MA_MAXIMIZE, 0);
+       } else {
+-         AddWindowMenuItem(menu, "Maximize", MA_MAXIMIZE, 0);
++         AddWindowMenuItem(menu, "Maximizar", MA_MAXIMIZE, 0);
+       }
+ 
+    }
+@@ -127,9 +127,9 @@
+    if(!(client->state.status & STAT_WMDIALOG)) {
+ 
+       if(client->state.status & STAT_STICKY) {
+-         AddWindowMenuItem(menu, "Unstick", MA_STICK, 0);
++         AddWindowMenuItem(menu, "Despegar", MA_STICK, 0);
+       } else {
+-         AddWindowMenuItem(menu, "Stick", MA_STICK, 0);
++         AddWindowMenuItem(menu, "Pegar", MA_STICK, 0);
+       }
+ 
+       CreateWindowLayerMenu(menu);
+@@ -168,9 +168,9 @@
+    submenu->label = NULL;
+ 
+    if(client->state.layer == LAYER_TOP) {
+-      AddWindowMenuItem(submenu, "[Top]", MA_LAYER, LAYER_TOP);
++      AddWindowMenuItem(submenu, "[Arriba]", MA_LAYER, LAYER_TOP);
+    } else {
+-      AddWindowMenuItem(submenu, "Top", MA_LAYER, LAYER_TOP);
++      AddWindowMenuItem(submenu, "Arriba", MA_LAYER, LAYER_TOP);
+    }
+ 
+    str[4] = 0;
+@@ -200,9 +200,9 @@
+    }
+ 
+    if(client->state.layer == LAYER_BOTTOM) {
+-      AddWindowMenuItem(submenu, "[Bottom]", MA_LAYER, LAYER_BOTTOM);
++      AddWindowMenuItem(submenu, "[Abajo]", MA_LAYER, LAYER_BOTTOM);
+    } else {
+-      AddWindowMenuItem(submenu, "Bottom", MA_LAYER, LAYER_BOTTOM);
++      AddWindowMenuItem(submenu, "Abajo", MA_LAYER, LAYER_BOTTOM);
+    }
+ 
+ }
+@@ -335,7 +335,7 @@
+       SetClientLayer(client, action->data.i);
+       break;
+    default:
+-      Debug("unknown window command: %d", action->type);
++      Debug("comando de ventana desconocido: %d", action->type);
+       break;
+    }
+ 

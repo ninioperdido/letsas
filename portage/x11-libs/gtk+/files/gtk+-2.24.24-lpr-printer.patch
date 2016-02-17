@@ -1,0 +1,108 @@
+--- gtk+-2.24.24/modules/printbackends/lpr/gtkprintbackendlpr.c.orig	2014-03-06 05:56:42.000000000 +0100
++++ gtk+-2.24.24/modules/printbackends/lpr/gtkprintbackendlpr.c	2014-09-15 20:33:10.341055739 +0200
+@@ -309,7 +309,7 @@
+   return TRUE;
+ }
+ 
+-#define LPR_COMMAND "lpr"
++#define LPR_COMMAND "lpr -P"
+ 
+ static void
+ gtk_print_backend_lpr_print_stream (GtkPrintBackend        *print_backend,
+@@ -390,18 +390,57 @@
+ static void
+ gtk_print_backend_lpr_init (GtkPrintBackendLpr *backend)
+ {
++  const gchar line[256];
++  gchar * p;
++  gchar queue[80];
++  const gchar aqueue[10][80];
++  int ncount=0;
++  int qcount=0;
++  int i=0;
++  FILE *printcap = fopen("/etc/printcap", "r");
++
++  if (printcap == NULL){
++      GTK_NOTE (PRINTING,
++                g_print ("LPR printer error: %s\n", "Can not read printcap file"));
++  }
++  //recorrer por lineas
++  while (fgets(line, 256, printcap) != NULL){
++    //ignorar las lineas vacias, comentarios # y propiedades :
++    p=line;
++    while(*p==' ' || *p=='\t') p++; // skip whitespaces
++    if(*p=='\r') p++;
++    if(*p!='\n' && *p!='\0' && *p!='#' && *p!=':'){
++      ncount=0;
++      //parsear el nombre de cola, que es hasta que se encuentre el caracter | o : o fin de linea
++      while (*p!='|' && *p!='\n' && *p!=':' && *p!='\0' && ncount < 128){
++        queue[ncount]=*p;
++        ncount++;
++	p++;
++      }
++      if (ncount != 0 ){
++        queue[ncount] = '\0';
++        //añadir el nombre de cola a un array de colas.
++        strcpy(aqueue[qcount], queue);
++	qcount++;
++      }
++    } 
++  } 
++  fclose(printcap);
++ 
+   GtkPrinter *printer;
+-
+-  printer = gtk_printer_new (_("Print to LPR"),
++  
++  for (i=0; i < qcount; i++){
++    printer = gtk_printer_new (_(aqueue[i]),
+ 			     GTK_PRINT_BACKEND (backend),
+ 			     TRUE); 
+-  gtk_printer_set_has_details (printer, TRUE);
+-  gtk_printer_set_icon_name (printer, "gtk-print");
+-  gtk_printer_set_is_active (printer, TRUE);
+-  gtk_printer_set_is_default (printer, TRUE);
+-
+-  gtk_print_backend_add_printer (GTK_PRINT_BACKEND (backend), printer);
+-  g_object_unref (printer);
++    gtk_printer_set_has_details (printer, TRUE);
++    gtk_printer_set_icon_name (printer, "gtk-print");
++    gtk_printer_set_is_active (printer, TRUE);
++    gtk_printer_set_is_default (printer, TRUE);
++
++    gtk_print_backend_add_printer (GTK_PRINT_BACKEND (backend), printer);
++    g_object_unref (printer);
++  }
+   gtk_print_backend_set_list_done (GTK_PRINT_BACKEND (backend));
+ }
+ 
+@@ -415,6 +454,7 @@
+   GtkPrinterOption *option;
+   const char *command;
+   char *n_up[] = {"1", "2", "4", "6", "9", "16" };
++  const char str[128];
+ 
+   set = gtk_printer_option_set_new ();
+ 
+@@ -430,9 +470,18 @@
+   option->group = g_strdup ("GtkPrintDialogExtension");
+   if (settings != NULL &&
+       (command = gtk_print_settings_get (settings, "lpr-commandline"))!= NULL)
+-    gtk_printer_option_set (option, command);
+-  else
+-    gtk_printer_option_set (option, LPR_COMMAND);
++    if ( strncmp(command,LPR_COMMAND,128) == 0 ){
++      strcpy (str, LPR_COMMAND);
++      strcat (str, gtk_printer_get_name (printer));
++      gtk_printer_option_set (option, str);
++    }
++    else
++      gtk_printer_option_set (option, command);
++  else{
++    strcpy (str, LPR_COMMAND);
++    strcat (str, gtk_printer_get_name (printer));
++    gtk_printer_option_set (option, str);
++  }
+   gtk_printer_option_set_add (set, option);
+     
+   return set;

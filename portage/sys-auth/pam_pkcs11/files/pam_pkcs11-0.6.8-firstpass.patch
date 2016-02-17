@@ -1,0 +1,10 @@
+--- src/tools/pkcs11_eventmgr.c.ori	2015-12-03 20:43:26.213751815 +0100
++++ src/tools/pkcs11_eventmgr.c	2015-12-03 20:42:01.772752876 +0100
+@@ -570,6 +570,7 @@
+ 	   }
+ 	   if (old_state == new_state ) { /* state unchanged */
+ 		/* on card not present, increase and check expire time */
++        if ( first_loop == 0 ) first_loop=1;
+ 		if ( expire_time == 0 ) continue;
+ 		if ( new_state == CARD_PRESENT ) continue;
+ 		expire_count += polling_time;

@@ -1,0 +1,11 @@
+--- a/panel.cpp	2014-05-22 16:33:12.001005111 +0200
++++ b/panel.cpp	2014-05-22 16:33:25.007658189 +0200
+@@ -743,7 +743,7 @@
+ 
+ 	if (mode == Mode_Lock) {
+ 		// If only the password box is visible, draw the user name somewhere too
+-		string user_msg = "User: " + GetName();
++		string user_msg = "Usuario: " + GetName();
+ 		int show_username = cfg->getIntOption("show_username");
+ 		if (singleInputMode && show_username) {
+ 			Message(user_msg);

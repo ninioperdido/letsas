@@ -1,0 +1,21 @@
+--- slim-1.3.6/panel.cpp	2014-10-16 11:50:37.095070305 +0200
++++ slim-1.3.6.new/panel.cpp	2014-10-16 11:45:41.480499213 +0200
+@@ -339,13 +339,13 @@
+ 	int shadowYOffset = cfg->getIntOption("msg_shadow_yoffset");
+ 	int msg_x, msg_y;
+ 
+-	if (mode == Mode_Lock) {
+-		msg_x = Cfg::absolutepos(cfgX, viewport.width, extents.width);
+-		msg_y = Cfg::absolutepos(cfgY, viewport.height, extents.height);
+-	} else {
++	// if (mode == Mode_Lock) {
++	//	msg_x = Cfg::absolutepos(cfgX, viewport.width, extents.width);
++	//	msg_y = Cfg::absolutepos(cfgY, viewport.height, extents.height);
++	//} else {
+ 		msg_x = Cfg::absolutepos(cfgX, XWidthOfScreen(ScreenOfDisplay(Dpy, Scr)), extents.width);
+ 		msg_y = Cfg::absolutepos(cfgY, XHeightOfScreen(ScreenOfDisplay(Dpy, Scr)), extents.height);
+-	}
++	//}
+ 
+ 	SlimDrawString8 (draw, &msgcolor, msgfont, msg_x, msg_y,
+ 					 text,

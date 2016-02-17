@@ -1,0 +1,31 @@
+--- xtypes.py   2012-03-26 18:37:05.000000000 +0200
++++ xtypes.py   2013-11-29 16:55:23.629000000 +0100
+@@ -481,9 +481,15 @@
+     '''
+     def __init__(self, index, name, elt, *parent):
+         elts = list(elt)
+-        self.expr = Expression(elts[0] if len(elts) else elt, self)
+-        ComplexType.__init__(self, name, elts[1:])        
+-        self.has_name = True
++        self.expr = []
++        fields = []
++        for elt in elts:
++            if elt.tag == 'enumref':
++                self.expr.append(Expression(elt, self))
++            else:
++                fields.append(elt)
++        ComplexType.__init__(self, name, fields)
++        self.has_name = True
+         self.index = 1
+         self.lenfield_parent = list(parent) + [self]
+         self.parents = list(parent)
+@@ -511,7 +517,8 @@
+         if self.resolved:
+             return
+         
+-        self.expr.resolve(module, self.parents+[self])
++        for e in self.expr:
++            e.resolve(module, self.parents+[self])
+ 
+         # Resolve the bitcase expression
+         ComplexType.resolve(self, module)

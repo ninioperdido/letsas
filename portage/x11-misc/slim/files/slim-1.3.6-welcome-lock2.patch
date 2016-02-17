@@ -1,0 +1,38 @@
+--- panel.cpp.orig	2014-11-07 09:29:20.483727975 +0100
++++ panel.cpp	2014-11-07 15:04:23.006655268 +0100
+@@ -682,7 +682,9 @@
+ void Panel::ShowText(){
+ 	string cfgX, cfgY;
+ 	XGlyphInfo extents;
+-
++    int welcome_msg_len;
++    int welcome_msg_x;
++    std::stringstream welcome_out;
+ 	bool singleInputMode =
+ 	input_name_x == input_pass_x &&
+ 	input_name_y == input_pass_y;
+@@ -693,12 +695,24 @@
+ 	XftTextExtents8(Dpy, welcomefont, (XftChar8*)welcome_message.c_str(),
+ 					strlen(welcome_message.c_str()), &extents);
+ 	cfgX = cfg->getOption("welcome_x");
++    welcome_msg_len = cfgX.length();
++    
++    if (mode == Mode_Lock && cfgX.substr(welcome_msg_len,1).compare("%") != 0){
++        welcome_msg_x = atoi( cfgX.substr(0,welcome_msg_len - 1).c_str() );
++        welcome_out << welcome_msg_x / 2;
++        cfgX = welcome_out.str();
++        cfgX = cfgX + "%";
++    }
+ 	cfgY = cfg->getOption("welcome_y");
+ 	int shadowXOffset = cfg->getIntOption("welcome_shadow_xoffset");
+ 	int shadowYOffset = cfg->getIntOption("welcome_shadow_yoffset");
+ 
+ 	welcome_x = Cfg::absolutepos(cfgX, image->Width(), extents.width);
+ 	welcome_y = Cfg::absolutepos(cfgY, image->Height(), extents.height);
++
++    /*if (mode == Mode_Lock)
++        welcome_x = welcome_x / 2;*/
++
+ 	if (welcome_x >= 0 && welcome_y >= 0) {
+ 		SlimDrawString8 (draw, &welcomecolor, welcomefont,
+ 						 welcome_x, welcome_y,

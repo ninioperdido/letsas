@@ -1,0 +1,16 @@
+
+** (epiphany:3680): WARNING **: Couldn't register with accessibility bus: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
+
+** (WebKitWebProcess:3700): WARNING **: Couldn't register with accessibility bus: Did not receive a reply. Possible causes include: the remote application did not send a reply, the message bus security policy blocked the reply, the reply timeout expired, or the network connection was broken.
+
+** (WebKitWebProcess:3700): WARNING **: uri_tester_compile_regexp: Error while compiling regular expression /cdn-cgi/pe/bag\?r[]=.*cpalead.com at char 34: missing terminating ] for character class
+
+(WebKitWebProcess:3700): GLib-CRITICAL **: g_regex_unref: assertion `regex != NULL' failed
+
+** (WebKitWebProcess:3700): WARNING **: uri_tester_compile_regexp: Error while compiling regular expression eveningecho.ie/cdn-cgi/pe/bag\?r[]=.*pubads.g.doubleclick.net at char 61: missing terminating ] for character class
+
+(WebKitWebProcess:3700): GLib-CRITICAL **: g_regex_unref: assertion `regex != NULL' failed
+
+(epiphany:3680): Gdk-CRITICAL **: gdk_cursor_new_from_pixbuf: assertion `GDK_IS_PIXBUF (pixbuf)' failed
+
+(epiphany:3680): Gdk-CRITICAL **: gdk_cursor_new_from_pixbuf: assertion `GDK_IS_PIXBUF (pixbuf)' failed
