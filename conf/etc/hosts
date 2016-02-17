@@ -1,0 +1,7 @@
+
+# IPv4 and IPv6 localhost aliases
+127.0.0.1	localhost
+# ::1		localhost
+
+10.104.80.20 dmsas.sda.sas.junta-andalucia.es
+

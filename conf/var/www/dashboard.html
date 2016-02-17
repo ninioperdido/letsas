@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <title>Dashboard Template for Bootstrap</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+
+    <script src="js/holder.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">LeTSAS</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right" id="main-nav">
+            <li><a href="dashboard.html">Inicio</a></li>
+            <li><a href="servicios.html">Servicios</a></li>
+            <li><a href="informacion.html">Informaci&oacute;n</a></li>
+            <li><a href="ayuda.html">Ayuda</a></li>
+          </ul>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="#">Vista General</a></li>
+            <li><a href="ditem.html">Memoria</a></li>
+            <li><a href="ditem.html">CPU</a></li>
+            <li><a href="ditem.html">Disco</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">Panel de control LeTSAS</h1>
+          <div class="row placeholders">
+             <div class=placeholder">
+                <a href="ditem.html?memoria=1">
+                <h4 class="pull-left">Memoria</h4>
+                </a>
+                <br/>
+                <span class="text-muted">A | B | C | D</span>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" style="width: 35%">
+                        <span class="sr-only">35% Complete (success)</span>
+                    </div>
+                    <div class="progress-bar progress-bar-warning" style="width: 20%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: 10%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                    </div>
+                </div> <!-- progress -->
+
+            </div> <!-- placeholder -->
+            <div class=placeholder">
+                <a href="ditem.html?cpu=1">
+                <h4 class="pull-left">CPU</h4>
+                </a>
+                <br/>
+                <span class="text-muted">A | B | C | D</span>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" style="width: 35%">
+                        <span class="sr-only">35% Complete (success)</span>
+                    </div>
+                    <div class="progress-bar progress-bar-warning" style="width: 20%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: 10%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                    </div>
+                </div> <!-- progress -->
+
+            </div> <!-- placeholder -->
+            <div class=placeholder">
+                <a href="ditem.html?disco=1">
+                <h4 class="pull-left">Disco</h4>
+                </a>
+                <br/>
+                <span class="text-muted">A | B | C | D</span>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-success" style="width: 35%">
+                        <span class="sr-only">35% Complete (success)</span>
+                    </div>
+                    <div class="progress-bar progress-bar-warning" style="width: 20%">
+                        <span class="sr-only">20% Complete (warning)</span>
+                    </div>
+                    <div class="progress-bar progress-bar-danger" style="width: 10%">
+                        <span class="sr-only">10% Complete (danger)</span>
+                    </div>
+                </div> <!-- progress -->
+
+            </div> <!-- placeholder -->
+          </div>
+
+       </div> <!-- main -->
+      </div> <!-- container -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/docs.min.js"></script>
+    <script src="js/jqplot.pieRenderer.min.js"></script>
+    <script>
+    $(function() {
+    $("ul#main-nav li a[href*='dashboard']").parent().addClass("active");
+    console.log(window.location.pathname);
+    });
+    </script>
+  </body>
+</html>
+

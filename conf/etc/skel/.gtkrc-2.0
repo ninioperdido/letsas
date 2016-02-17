@@ -1,0 +1,11 @@
+gtk-print-backends="file,lpr"
+gtk-toolbar-icon-size = GTK_ICON_SIZE_SMALL_TOOLBAR
+gtk-icon-theme-name = hicolor
+gtk-fallback-icon-theme-name = gnome
+
+style "noticias" {
+    GtkRange::slider-width = 0
+    GtkRange::slider-height = 0
+}
+class "noticias" style "noticias"
+

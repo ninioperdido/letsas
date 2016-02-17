@@ -1,0 +1,99 @@
+#!/bin/sh
+LOGFILE="/var/log/usbcardreader.log"
+LOGFLAG=0
+QDEVICE="/dev/$DEVNAME"
+[ $LOGFLAG == 1 ] && echo "Device detected in usbfs path" >> $LOGFILE
+[ $LOGFLAG == 1 ] && printenv >> $LOGFILE
+
+case "$ACTION" in
+	add)
+		sleep 3
+		if [ "`echo $PRODUCT | grep 46a`" != "" ]; then
+			[ $LOGFLAG == 1 ] && echo "Cherry device detected" >> $LOGFILE
+			if [ -e $QDEVICE ]; then
+				/etc/init.d/pcscd restart
+				if [ "`pidof pkcs11_eventmgr`" != "" ]; then
+					kill -9 `pidof pkcs11_eventmgr`
+				fi
+				/usr/bin/pkcs11_eventmgr &> /var/log/pkcs11_eventmgr.log
+				[ $LOGFLAG == 1 ] && echo "PCSCD service restarted" >> $LOGFILE
+			fi
+		elif [ "`echo $PRODUCT | grep bf8`" != "" ]; then
+			[ $LOGFLAG == 1 ] && echo "Fujitsu device detected" >> $LOGFILE
+			if [ -e $QDEVICE ]; then
+				/etc/init.d/pcscd restart
+				if [ "`pidof pkcs11_eventmgr`" != "" ]; then
+					kill -9 `pidof pkcs11_eventmgr`
+				fi
+				/usr/bin/pkcs11_eventmgr &> /var/log/pkcs11_eventmgr.log
+				[ $LOGFLAG == 1 ] && echo "PCSCD service restarted" >> $LOGFILE
+			fi
+		elif [ "`echo $PRODUCT | grep 58f`" != "" ]; then
+                        [ $LOGFLAG == 1 ] && echo "Alcor Micro device detected" >> $LOGFILE
+                        if [ -e $QDEVICE ]; then
+                                /etc/init.d/pcscd restart
+				if [ "`pidof pkcs11_eventmgr`" != "" ]; then
+					kill -9 `pidof pkcs11_eventmgr`
+				fi
+				/usr/bin/pkcs11_eventmgr &> /var/log/pkcs11_eventmgr.log
+                                [ $LOGFLAG == 1 ] && echo "PCSCD service restarted" >> $LOGFILE
+                        fi
+		elif [ "`echo $PRODUCT | grep  783`" != "" ]; then
+                        [ $LOGFLAG == 1 ] && echo "C3PO device detected" >> $LOGFILE
+                        if [ -e $QDEVICE ]; then
+                                /etc/init.d/pcscd restart
+				if [ "`pidof pkcs11_eventmgr`" != "" ]; then
+					kill -9 `pidof pkcs11_eventmgr`
+				fi
+				/usr/bin/pkcs11_eventmgr &> /var/log/pkcs11_eventmgr.log
+                                [ $LOGFLAG == 1 ] && echo "PCSCD service restarted" >> $LOGFILE
+                        fi
+		else
+			[ $LOGFLAG == 1 ] && echo "Unknown device detected, nothing to do" >> $LOGFILE
+		fi
+	;;
+	remove)
+		if [ "`echo $PRODUCT | grep 46a`" != "" ]; then
+			[ $LOGFLAG == 1 ] && echo "Cherry device removed" >> $LOGFILE
+			if [ "`lsusb | grep 46a`" == "" -a "`lsusb | grep bf8`" == "" -a "`lsusb | grep 58f`" == "" -a "`lsusb | grep 783`" == "" ]; then
+				/etc/init.d/pcscd stop
+				if [ "`pidof pkcs11_eventmgr`" != "" ]; then
+					kill -9 `pidof pkcs11_eventmgr`
+				fi
+				[ $LOGFLAG == 1 ] && echo "PCSCD service stoped" >> $LOGFILE
+			fi
+        	elif [ "`echo $PRODUCT | grep bf8`" != "" ]; then
+            		[ $LOGFLAG == 1 ] && echo "Fujitsu device removed" >> $LOGFILE
+            		if [ "`lsusb | grep 46a`" == "" -a "`lsusb | grep bf8`" == "" -a "`lsusb | grep 58f`" == "" -a "`lsusb | grep 783`" == "" ]; then
+                		/etc/init.d/pcscd stop
+				if [ "`pidof pkcs11_eventmgr`" != "" ]; then
+					kill -9 `pidof pkcs11_eventmgr`
+				fi
+               			[ $LOGFLAG == 1 ] && echo "PCSCD service stoped" >> $LOGFILE
+            		fi
+		elif [ "`echo $PRODUCT | grep 58f`" != "" ]; then
+                        [ $LOGFLAG == 1 ] && echo "Alcor Micro device removed" >> $LOGFILE
+                        if [ "`lsusb | grep 46a`" == "" -a "`lsusb | grep bf8`" == "" -a "`lsusb | grep 58f`" == "" -a "`lsusb | grep 783`" == "" ]; then 
+                                /etc/init.d/pcscd stop
+				if [ "`pidof pkcs11_eventmgr`" != "" ]; then
+					kill -9 `pidof pkcs11_eventmgr`
+				fi
+                                [ $LOGFLAG == 1 ] && echo "PCSCD service stoped" >> $LOGFILE
+			fi
+		elif [ "`echo $PRODUCT | grep 783`" != "" ]; then
+                        [ $LOGFLAG == 1 ] && echo "C3PO device removed" >> $LOGFILE
+                        if [ "`lsusb | grep 46a`" == "" -a "`lsusb | grep bf8`" == "" -a "`lsusb | grep 58f`" == "" -a "`lsusb | grep 783`" == "" ]; then 
+				if [ "`pidof pkcs11_eventmgr`" != "" ]; then
+					kill -9 `pidof pkcs11_eventmgr`
+				fi
+                                /etc/init.d/pcscd stop
+                                [ $LOGFLAG == 1 ] && echo "PCSCD service stoped" >> $LOGFILE
+                        fi
+		else
+			[ $LOGFLAG == 1 ] && echo "Unknown device removed, nothing to do" >> $LOGFILE
+		fi
+	;;
+esac
+exit 0
+
+

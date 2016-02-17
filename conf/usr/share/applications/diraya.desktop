@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Historia Salud Digital
+Exec=/opt/Citrix/ICAClient/wfica /opt/Citrix/ICAClient/config/DirayaPrimaria.ini
+Type=Application
+Terminal=false
+StartupNotify=true
+Icon=/usr/share/icons/letsas/diraya.png
+

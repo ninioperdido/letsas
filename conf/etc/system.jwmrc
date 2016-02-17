@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<JWM>
+ <!-- The root menu, if this is undefined you will not get a menu. -->
+ <!-- Additional RootMenu attributes: onroot, labeled, label -->
+ <RootMenu height="24" onroot="3">
+     <Program icon="navegador.png" label="Navegador">midori</Program>
+     <Program icon="explorador.png" label="Gestor de ficheros">pcmanfm</Program>
+     <Program icon="diraya.png" label="Diraya">/opt/Citrix/ICAClient/wfica /etc/diraya.ica</Program>
+  <Program icon="terminal.png" label="Terminal">rxvt</Program> 
+   <Separator/>
+   <Exit label="Salir" confirm="false" icon="salir.png"/>
+
+ </RootMenu>
+
+ <!-- <Tray autohide="true" insert="right" valign="bottom" halign="center" x="50" height="48" width="700"> 
+     <TrayButton popup="Navegador" icon="navegador.png">exec:midori</TrayButton>     
+     <TrayButton popup="Gestor de ficheros" icon="explorador.png">exec:pcmanfm</TrayButton>
+     <TrayButton popup="Ofimática local" icon="procesador_textos.png">exec:/usr/lib/libreoffice/program/soffice</TrayButton>
+     <TrayButton border="0" popup="Aplicaciones del distrito" icon="aplicaciones_distrito.png">exec:/opt/Citrix/ICAClient/wfica /etc/diraya.ica</TrayButton>
+     <TrayButton border="0" popup="Historia Digital de Salud" icon="diraya.png">root:5</TrayButton>
+     <TrayButton border="0" popup="Módulos Generales" icon="modulos_generales.png">root:7</TrayButton>
+     <TrayButton border="0" popup="Planes Específicos" icon="planes_especificos.png">root:6</TrayButton>
+     <TrayButton popup="Terminal" icon="terminal.png">exec:rxvt</TrayButton> 
+     <TrayButton popup="Bloquear Pantalla" icon="bloquear.png">exec:xautolock -locknow</TrayButton>
+     <TrayButton popup="Salir" icon="salir.png">exec:jwm -exit</TrayButton> 
+  <TaskList maxwidth="128" border="false"/>
+ </Tray> 
+ -->
+ <!-- Styles -->
+ <WindowStyle>
+  <Font antialias="true">xft:DejaVuSans-6:bold</Font>
+  <Width>6</Width>
+  <Height>24</Height>
+  <Active>
+   <Text>#bababa</Text>
+   <Title>#474c52:#303438</Title>
+   <Outline>grey</Outline>
+  </Active>
+  <Inactive>
+   <Text>white</Text>
+   <Title>#676a6d:#7e8b9b</Title>
+   <Outline>grey</Outline>
+  </Inactive>
+ </WindowStyle>
+ <TaskListStyle>
+  <Font antialias="true">xft:DejaVuSansLight-6</Font>
+  <ActiveForeground>black</ActiveForeground>
+  <ActiveBackground>gray:#C1E9EB</ActiveBackground>
+  <Foreground>gray</Foreground>
+  <Background>#4f546a</Background>
+ </TaskListStyle>
+ <TrayStyle>
+  <Font antialias="true">xft:DejaVuSansLight-6</Font>
+  <Background>#474c52</Background>
+  <Foreground>white</Foreground>
+  <Opacity>0.5</Opacity>
+ </TrayStyle>
+ <MenuStyle>
+  <Font antialias="true">xft:DejaVuSansLight-6</Font>
+  <Foreground>#cccccc</Foreground>
+  <Background>#474c52</Background>
+  <ActiveForeground>black</ActiveForeground>
+  <ActiveBackground>gray:#C1E9EB</ActiveBackground>
+ </MenuStyle>
+ <PopupStyle enabled="true">
+  <Font antialias="true">xft:DejaVuSansLight-6</Font>
+  <Outline>black</Outline>
+  <Foreground>black</Foreground>
+  <Background>gray</Background>
+ </PopupStyle>
+ <IconPath>
+ /usr/share/wbar/
+ </IconPath>
+ <Desktops width="1" height="1">
+ </Desktops>
+ 
+ <!-- Double click speed (in milliseconds) -->
+ <DoubleClickSpeed>400</DoubleClickSpeed>
+ <!-- Double click delta (in pixels) -->
+ <DoubleClickDelta>2</DoubleClickDelta>
+ <!-- The focus model (sloppy or click) -->
+ <FocusModel>click</FocusModel>
+ <!-- The snap mode (none, screen, or border) -->
+ <SnapMode distance="10">border</SnapMode>
+ <!-- The move mode (outline or opaque) -->
+ <MoveMode>outline</MoveMode>
+ <!-- The resize mode (outline or opaque) -->
+ <ResizeMode>outline</ResizeMode>
+ <StartupCommand></StartupCommand>
+ <!-- Key bindings -->
+ <Key key="Up">up</Key>
+ <Key key="Down">down</Key>
+ <Key key="Right">right</Key>
+ <Key key="Left">left</Key>
+ <Key key="h">left</Key>
+ <Key key="j">down</Key>
+ <Key key="k">up</Key>
+ <Key key="l">right</Key>
+ <Key key="Return">select</Key>
+ <Key key="Escape">escape</Key>
+ <Key mask="A" key="Tab">nextstacked</Key>
+ <Key mask="A" key="F4">close</Key>
+ <Key mask="A" key="#">desktop#</Key>
+ <Key mask="A" key="F2">window</Key>
+ <Key mask="A" key="F10">maximize</Key>
+ <Key mask="A" key="Right">rdesktop</Key>
+ <Key mask="A" key="Left">ldesktop</Key>
+ <Key mask="A" key="Up">udesktop</Key>
+ <Key mask="A" key="Down">ddesktop</Key>
+
+<Include>$HOME/.jwmrc-desktop</Include>
+
+</JWM>

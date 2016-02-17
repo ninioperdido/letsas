@@ -1,0 +1,39 @@
+Pam-script will look for the following scripts (or programs) in this
+directory.  Only doing so if pam_script.so is included in the PAM stack
+for module-types of auth, account, password, and session respectively:
+	pam_script_auth
+	pam_script_acct
+	pam_script_passwd
+	pam_script_ses_open
+	pam_script_ses_close
+
+The scripts can be symbolic links or not exist at all as the case may
+be.  However, if the script is used, then it will receive
+several environment variables:
+	PAM_SERVICE	- the application that's invoking the PAM stack
+	PAM_TYPE	- the module-type (e.g. auth,account,session,password)
+	PAM_USER	- the user being authenticated into
+	PAM_RUSER	- the remote user, the user invoking the application
+	PAM_RHOST	- remote host
+	PAM_TTY		- the controlling tty
+	PAM_AUTHTOK	- password in readable text
+	PAM_OLDAUTHTOK	- old password in readable text
+
+Also the scripts will receive on the command line the arguments
+sent to pam_script.so as configured in the PAM configuration file(s).
+Whatever arguments that are not needed by pam_script.so are ignored and
+just passed on.
+
+The scripts must return an exit value of 0 if successful with
+regards to its purpose; else return a non-zero exit value.  The
+pam_script.so module does not interpret non-zero values as anything else
+except as the appropriate failure for the given module-type.
+
+The pam_script tool can be used to create the links as needed.
+For example, if the script or program is named "foobar" then the links
+can be created with
+
+	env PAMSCRIPTDIR=. ./pam_script -v -x -s all foobar
+
+run "./pam_script -h" for more options and further information.
+

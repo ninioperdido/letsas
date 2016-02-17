@@ -1,0 +1,167 @@
+#!/bin/sh
+n_file="/etc/sysconfig/networkinterfaces"
+chgmac=`grep change-mac $n_file | grep true`
+opts="{start|stop|restart}"
+status=0
+start() {
+	stop
+	sleep 1
+	if [ ! -e ${n_file} ]; then
+		echo "No se encuentra archivo de configuración de red. Configurando dhcp en eth0 por defecto."
+        	echo "auto eth0" > ${n_file}
+        	echo "iface eth0 inet dhcp" >> ${n_file}
+		udhcpc -R -b -p /var/run/udhcpc.eth0.pid -i eth0 -F `cat /etc/sysconfig/hostname`
+		status=0;
+	else
+		ifaces=`ifconfig -a | grep ^[a-z] | grep -v ^lo | awk '{print $1}'`
+		#recorrer el archivo de configuración
+		while read line
+		do
+			if [ "`echo $line | grep ^iface`" != "" ]; then
+				if [ "$iface" != "" -a "$iface" != "lo" -a "$ip" != "" -a "$netmask" != "" -a "$gateway" != "" -a "$dns" != "" ]; then
+					[ "$chgmac" != "" -a "$iface" == "eth0" ] && newmac=`ifconfig $iface | grep HWaddr | awk '{print $5}' | awk -F':' '{print "00:00:" $3 ":" $4 ":" $5 ":" $6}'`
+					if [ "`ifconfig | grep $iface`" == "" ]; then
+						[ "$chgmac" != "" -a "$iface" == "eth0" ] && ifconfig $iface hw ether $newmac
+						ifconfig $iface up
+					else
+						ifconfig $iface down
+						[ "$chgmac" != "" -a "$iface" == "eth0" ] && ifconfig $iface hw ether $newmac
+						ifconfig $iface up
+					fi
+					ifconfig $iface $ip netmask $netmask
+					status=$(($status + $?))
+					route add default gw $gateway
+					status=$(($status + $?))
+					rm /etc/resolv.conf
+					if [ "$domain" != "" ]; then
+						if [ "`echo $domain | grep dmsas.sda.sas.junta-andalucia.es`" == "" ]; then                                           
+                                        		domain="$domain dmsas.sda.sas.junta-andalucia.es"                                                             
+                                		fi                                                                                           
+                                		echo search $domain >> /etc/resolv.conf
+					fi	
+					for server in $dns; do
+						echo nameserver $server >> /etc/resolv.conf 
+					done
+				fi
+				iface=""
+				type=""
+				ip=""
+				netmask=""
+				gateway=""
+				domain="" 
+				dns=""
+				iface=`echo $line | awk '{print $2}'`
+				#si se encuentra un iface y existe un auto, configurar
+				if [ "`echo $ifaces | grep $iface`" != "" -a "`grep auto ${n_file} | grep $iface`" != "" ]; then
+					type=`echo $line | awk '{print $4}'`
+
+					#Si es dhcp, lanzar udhcpc
+					if [ "$type" == "dhcp" ]; then
+						#if [ "`ifconfig | grep $iface`" == "" ]; then
+						#	ifconfig $iface up
+						#fi
+						[ "$chgmac" != "" -a "$iface" == "eth0" ] && newmac=`ifconfig $iface | grep HWaddr | awk '{print $5}' | awk -F':' '{print "00:00:" $3 ":" $4 ":" $5 ":" $6}`
+						if [ "`ifconfig | grep $iface`" == "" ]; then                                                                 
+                                                	[ "$chgmac" != "" -a "$iface" == "eth0" ] && ifconfig $iface hw ether $newmac                                                                      
+                                                	ifconfig $iface up                                                                                    
+                                        	else                                                                                                          
+                                                	ifconfig $iface down                                                                                  
+                                                	[ "$chgmac" != "" -a "$iface" == "eth0" ] && ifconfig $iface hw ether $newmac                                                                      
+                                                	ifconfig $iface up                                                                                    
+                                        	fi
+						udhcpc -R -b -p /var/run/udhcpc.${iface}.pid -i ${iface} -F `cat /etc/sysconfig/hostname`
+						status=$(($? + $status))
+						iface=""
+						type=""
+						ip=""
+						netmask=""
+						gateway=""
+						domain="" 
+						dns=""
+					fi
+				fi
+			else
+				if [ "`echo $line | grep ^#`" == "" ]; then
+					echo $line | grep address && ip=`echo $line | awk '{print $2}'`
+					echo $line | grep netmask && netmask=`echo $line | awk '{print $2}'`
+					echo $line | grep gateway && gateway=`echo $line | awk '{print $2}'`
+					echo $line | grep dns-search && domain=`echo $line | cut -d' ' -f2-`
+					echo $line | grep dns-nameservers && dns=`echo $line | cut -d' ' -f2-`
+				fi
+			fi
+		done < ${n_file}
+		if [ "$iface" != "" -a "$iface" != "lo" -a "$ip" != "" -a "$netmask" != "" -a "$gateway" != "" -a "$dns" != "" ]; then
+			if [ "`ifconfig | grep $iface`" == "" ]; then
+				ifconfig $iface up
+			fi
+			ifconfig $iface $ip netmask $netmask
+			status=$(($status + $?))
+			route add default gw $gateway
+			status=$(($status + $?))
+			rm /etc/resolv.conf
+			if [ "$domain" != "" ]; then
+				if [ "`echo $domain | grep dmsas.sda.sas.junta-andalucia.es`" == "" ]; then
+					domain="$domain dmsas.sda.sas.junta-andalucia.es"
+				fi
+				echo search $domain >> /etc/resolv.conf
+			fi	
+			for server in $dns; do
+				echo nameserver $server >> /etc/resolv.conf 
+			done
+		fi
+		if [ "`grep force-link ${n_file} | grep true`" != "" ]; then
+			echo "Link de interfaz eth0 forzado a fullduplex 100" >> /var/log/netconfig.log
+			sleep 1
+                        /usr/sbin/ethtool -s eth0 autoneg off speed 100 duplex full wol bg
+		else
+			echo "WOL de eth0 configurado a bg" >> /var/log/netconfig.log
+			sleep 1
+			/usr/sbin/ethtool -s eth0 wol bg 
+                fi
+		iface=""
+		type=""
+		ip=""
+		netmask=""
+		gateway=""
+		domain="" 
+		dns=""
+	fi
+	if [ $status -eq 0 ]; then
+		echo "Starting Status: OK"
+	else
+		echo "Starting Status: FAIL"
+	fi
+}
+
+stop() {
+	for pidfile in $( ls /var/run/udhcpc.* 2>/dev/null); do
+		if [ "`echo $pidfile | grep pid$`" != "" ]; then
+			kill -9 `cat $pidfile`
+            rm -f $pidfile
+		fi
+	done
+	for iface in $(ifconfig -a | grep ^[a-z] | grep -v ^lo | awk '{print $1}'); do
+		ifconfig $iface down
+	done
+	echo "Stopping Status: OK"
+}
+
+restart() {
+	start
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		restart
+		;;
+	*)
+		echo "Usage: $0 $opts"
+		;;
+esac
+

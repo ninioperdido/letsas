@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Presentaciones
+Exec=/usr/lib/libreoffice/program/simpress
+MimeType=application/vnd.oasis.opendocument.presentation;application/vnd.oasis.opendocument.presentation-template;application/vnd.ms-powerpoint;application/vnd.openxmlformats-officedocument.presentationml.presentation;application/vnd.openxmlformats-officedocument.presentationml.template;
+

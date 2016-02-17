@@ -1,0 +1,116 @@
+#!/bin/sh
+LOGFILE="/var/log/usbprinter.log"
+LOGFLAG=1
+PRINTFILE="/etc/lprng/printcap"
+TMPPFILE="/tmp/printcap.tmp"
+QDEVICE="/dev/$DEVNAME"
+TIMEOUT=2
+CAT="`which catpjlt` $TIMEOUT"
+if [ -e /etc/printers.conf ]; then
+	. /etc/printers.conf
+fi
+if [ "`hostname | grep '.\{7\}E.\{3\}'`" == "" ]; then
+	ATENCION="primaria"
+else
+	ATENCION="especializada"
+fi
+
+case "$ACTION" in
+	add)
+		sleep 2
+		[ $LOGFLAG == 1 ] && echo "USB Printer detected" >> $LOGFILE
+		iter=0
+		OUTPUT="";
+		while [ "`echo $OUTPUT | grep -E '1320|2055|401|6180|3005|5900|2015'`" == "" -a $iter -le 3 ]; do
+			echo -ne "\33%-12345X@PJL JOB\n@PJL INFO ID\n@PJL EOJ\n\33%-12345X" > ${QDEVICE}
+			sleep 2
+			OUTPUT=`${CAT} ${QDEVICE} | grep -v "@PJL" | tr -d '\r' | tr -d '\n' | tr -d '"'`
+			iter=$(($iter + 1))
+		done
+		[ $LOGFLAG == 1 ] && echo "Printer model: $OUTPUT" >> $LOGFILE
+		[ $LOGFLAG == 1 ] && echo "Printer port: $QDEVICE" >> $LOGFILE
+		[ $LOGFLAG == 1 ] && echo "Printer conf: $ATENCION $UBICACION $ETIQUETAS" >> $LOGFILE
+
+		grep -v ${QDEVICE} $PRINTFILE > $TMPPFILE
+		if [ "`echo $OUTPUT | grep -E '1320|2015'`" != "" ]; then
+			if [ "$ATENCION" == "primaria" ]; then
+				echo "LJ-1320-W2k8|LJ-1320-W2k8|LJ-1320-W2k8:lp=${QDEVICE}:sd=/var/spool/lpd/LJ-1320-W2k8:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=LJ-1320-W2k8:" >> $TMPPFILE
+			else
+				echo "LJ1320Bandeja1|LJ1320Bandeja1:lp=${QDEVICE}:sd=/var/spool/lpd/lj1320bandeja1:sh:ff_separator:wd=HP LaserJet 2200 Series PCL 5:" >> $TMPPFILE
+			fi
+		elif [ "`echo $OUTPUT | grep 2055`" != "" ]; then
+			if [ "$ATENCION" == "primaria" -a "$UBICACION" == "consulta" ]; then
+				echo "LJ-2055Consulta-W2k8|LJ-2055Consulta-W2k8|LJ-2055Consulta-W2k8:lp=${QDEVICE}:sd=/var/spool/lpd/LJ-2055Consulta-W2k8:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=LJ-2055Consulta-W2k8:" >> $TMPPFILE
+			elif [ "$ATENCION" == "primaria" -a "$UBICACION" != "consulta" ]; then
+				echo "LJ-2055Admision-W2k8|LJ-2055Admision-W2k8|LJ-2055Admision-W2k8:lp=${QDEVICE}:sd=/var/spool/lpd/LJ-2055Admision-W2k8:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=LJ-2055Admision-W2k8:" >> $TMPPFILE
+			else
+				echo "LJ1320Bandeja1|LJ1320Bandeja1:lp=${QDEVICE}:sd=/var/spool/lpd/lj1320bandeja1:sh:ff_separator:wd=HP LaserJet 2200 Series PCL 5:" >> $TMPPFILE
+			fi
+		elif [ "`echo $OUTPUT | grep 401`" != "" ]; then
+			if [ "$ATENCION" == "primaria" -a "$UBICACION" == "consulta" ]; then
+				echo "LJ-2055Consulta-W2k8|LJ-2055Consulta-W2k8|LJ-2055Consulta-W2k8:lp=${QDEVICE}:sd=/var/spool/lpd/LJ-2055Consulta-W2k8:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=LJ-2055Consulta-W2k8:" >> $TMPPFILE
+			elif [ "$ATENCION" == "primaria" -a "$UBICACION" != "consulta" ]; then
+				echo "LJ-2055Admision-W2k8|LJ-2055Admision-W2k8|LJ-2055Admision-W2k8:lp=${QDEVICE}:sd=/var/spool/lpd/LJ-2055Admision-W2k8:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=LJ-2055Admision-W2k8:" >> $TMPPFILE
+			else
+				echo "LJ1320Bandeja1|LJ1320Bandeja1:lp=${QDEVICE}:sd=/var/spool/lpd/lj1320bandeja1:sh:ff_separator:wd=HP LaserJet 2200 Series PCL 5:" >> $TMPPFILE
+			fi
+		elif [ "`echo $OUTPUT | grep 6180DW`" != "" ]; then
+			if [ "$ATENCION" == "primaria" -a "$UBICACION" == "consulta" ]; then
+				echo -ne "\33%-12345X@PJL JOB\n@PJL DEFAULT MPTRAYSIZE=ANY\n@PJL EOJ\n\33%-12345X" > ${QDEVICE}
+				OUTPUT=`${CAT} ${QDEVICE}`
+				echo -ne "\33%-12345X@PJL JOB\n@PJL DEFAULT TRAY1SIZE=ANY\n@PJL EOJ\n\33%-12345X" > ${QDEVICE}
+				OUTPUT=`${CAT} ${QDEVICE}`
+				echo "LJ-2055Consulta-W2k8|LJ-2055Consulta-W2k8|LJ-2055Consulta-W2k8:lp=${QDEVICE}:sd=/var/spool/lpd/LJ-2055Consulta-W2k8:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=LJ-2055Consulta-W2k8:" >> $TMPPFILE
+			elif [ "$ATENCION" == "primaria" -a "$UBICACION" != "consulta" ]; then
+				echo -ne "\33%-12345X@PJL JOB\n@PJL DEFAULT MPTRAYSIZE=A5\n@PJL EOJ\n\33%-12345X" > ${QDEVICE}
+				OUTPUT=`${CAT} ${QDEVICE}`
+				echo -ne "\33%-12345X@PJL JOB\n@PJL DEFAULT TRAY1SIZE=A4\n@PJL EOJ\n\33%-12345X" > ${QDEVICE}
+				OUTPUT=`${CAT} ${QDEVICE}`
+				echo "LJ-2055Admision-W2k8|LJ-2055Admision-W2k8|LJ-2055Admision-W2k8:lp=${QDEVICE}:sd=/var/spool/lpd/LJ-2055Admision-W2k8:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=LJ-2055Admision-W2k8:" >> $TMPPFILE
+			else
+				echo -ne "\33%-12345X@PJL JOB\n@PJL DEFAULT MPTRAYSIZE=ANY\n@PJL EOJ\n\33%-12345X" > ${QDEVICE}
+				OUTPUT=`${CAT} ${QDEVICE}`
+				echo -ne "\33%-12345X@PJL JOB\n@PJL DEFAULT TRAY1SIZE=ANY\n@PJL EOJ\n\33%-12345X" > ${QDEVICE}
+				OUTPUT=`${CAT} ${QDEVICE}`
+				echo "LJ1320Bandeja1|LJ1320Bandeja1:lp=${QDEVICE}:sd=/var/spool/lpd/lj1320bandeja1:sh:ff_separator:wd=HP LaserJet 2200 Series PCL 5:" >> $TMPPFILE
+			fi
+		elif [ "`echo $OUTPUT | grep 3005`" != "" ]; then
+			if [ "$ATENCION" == "primaria" ]; then
+				echo "LJ-1320-W2k8|LJ-1320-W2k8|LJ-1320-W2k8:lp=${QDEVICE}:sd=/var/spool/lpd/LJ-1320-W2k8:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=LJ-1320-W2k8:" >> $TMPPFILE
+			else
+				echo "LJ1320Bandeja1|LJ1320Bandeja1:lp=${QDEVICE}:sd=/var/spool/lpd/lj1320bandeja1:sh:ff_separator:wd=HP LaserJet 2200 Series PCL 5:" >> $TMPPFILE
+			fi
+		elif [ "`echo $OUTPUT | grep 5900`" != "" ]; then
+			echo "EPL5900Bandeja1|EPL5900Bandeja1|EPL5900Bandeja1:lp=${QDEVICE}:sd=/var/spool/lpd/EPL5900Bandeja1:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=EPL5900:" >> $TMPPFILE
+			echo "EPL5900Bandeja2|EPL5900Bandeja2|EPL5900Bandeja2:lp=${QDEVICE}:sd=/var/spool/lpd/EPL5900Bandeja2:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=EPL5900:" >> $TMPPFILE
+			echo "EPL5900Bandeja3|EPL5900Bandeja3|EPL5900Bandeja3:lp=${QDEVICE}:sd=/var/spool/lpd/EPL5900Bandeja3:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:wd=EPL5900:" >> $TMPPFILE
+		elif [ "`echo $OUTPUT | grep 3320`" != "" ]; then
+			[ $LOGFLAG == 1 ] && echo "Printer not supported" >> $LOGFILE
+			[ $LOGFLAG == 1 ] && echo "Generic USB Printer configured" >> $LOGFILE
+			echo "USBPrinter|USBPrinter|USBPrinter:lp=${QDEVICE}:sd=/var/spool/lpd/USBPrinter:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:" >> $TMPPFILE
+		elif [ "`echo $OUTPUT | grep 880`" != "" ]; then
+			[ $LOGFLAG == 1 ] && echo "Printer not supported" >> $LOGFILE
+			[ $LOGFLAG == 1 ] && echo "Generic USB Printer configured" >> $LOGFILE
+			echo "USBPrinter|USBPrinter|USBPrinter:lp=${QDEVICE}:sd=/var/spool/lpd/USBPrinter:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:" >> $TMPPFILE
+		else
+			[ $LOGFLAG == 1 ] && echo "Printer not supported" >> $LOGFILE
+			[ $LOGFLAG == 1 ] && echo "Generic USB Printer configured" >> $LOGFILE
+			echo "USBPrinter|USBPrinter|USBPrinter:lp=${QDEVICE}:sd=/var/spool/lpd/USBPrinter:if=/usr/libexec/lprng/filters/lpf:sh:ff_separator:" >> $TMPPFILE
+		fi
+		if [ "$ETIQUETAS" == "etiquetas" ]; then
+			echo "Etiquetas|Etiquetas|Etiquetas:lp=${QDEVICE}:sd=/var/spool/lpd/etiquetas:sh:ff_separator:wd=HP LaserJet 2200 Series PCL 5:" >> $TMPPFILE 
+		fi
+		mv -f $TMPPFILE $PRINTFILE
+	;;
+	remove)
+		[ $LOGFLAG == 1 ] && echo "USB Printer unplugged from $DEVNAME" >> $LOGFILE
+		#grep -v $DEVNAME $PRINTFILE > $TMPPFILE
+		#mv -f $TMPPFILE $PRINTFILE 
+	;;
+esac
+[ $LOGFLAG == 1 ] && echo "Restarting printing system" >> $LOGFILE
+/etc/init.d/lpd stop
+sleep 1
+/etc/init.d/lpd start
+exit 0
+

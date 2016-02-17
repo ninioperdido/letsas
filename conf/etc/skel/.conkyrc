@@ -1,0 +1,60 @@
+# Conky settings #
+background yes
+update_interval 1
+double_buffer yes
+no_buffers yes
+imlib_cache_size 10
+
+# Window specifications #
+gap_x 40
+gap_y 20
+minimum_size 268 620
+maximum_width 300
+own_window yes
+own_window_type override  # other options are: override/dock/desktop/panel
+own_window_transparent yes
+own_window_hints undecorate,sticky,skip_taskbar,skip_pager,below
+own_window_class widgets
+border_inner_margin 0
+border_outer_margin 0
+alignment top_right
+#own_window_argb_visual yes
+#own_window_argb_value 0
+
+# Graphics settings #
+draw_shades yes
+default_shade_color AAAAAA
+draw_outline no
+default_outline_color AAAAAA
+draw_borders no
+draw_graph_borders no
+default_graph_size 26 80
+show_graph_scale no
+show_graph_range no
+
+# Text settings #
+use_xft yes
+xftalpha 0
+xftfont DejaVu Sans:size=8
+text_buffer_size 256
+override_utf8_locale yes
+
+# Useful shortenings #
+short_units yes
+pad_percents 2
+top_name_width 7
+
+# Color scheme #
+default_color FFFFFF
+
+TEXT
+${execi 300 http_proxy="http://10.234.23.118:8080" curl -s "http://weather.yahooapis.com/forecastrss?w=762761&u=c" -o ~/.cache/weather.xml}
+${image /usr/share/icons/letsas/fecha.png -p 195,0 -s 74x98}\
+\
+${voffset 90}${font DejaVu Sans :size=24}${alignr}CÓRDOBA${font}
+${voffset 10}${font DejaVu Sans :size=12}${alignr}${nodename} ${addrs}${font}
+${offset -30}${voffset 10}${font DejaVu Sans :size=18}${alignr}${time %A %d %B}${font}
+${voffset 10}${font DejaVu Sans :size=40}${alignr}${time %H:%M}${font}
+${execi 300 cp -f /usr/share/icons/letsas/weather/$(grep "yweather:condition" ~/.cache/weather.xml | grep -o "code=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*" | awk 'NR==1').png ~/.cache/weather-1.png}${image ~/.cache/weather-1.png -p 160,260 -s 32x32}\
+${voffset 10}${font DejaVu Sans :size=36}${alignr}${execi 300 grep "yweather:condition" ~/.cache/weather.xml | grep -o "temp=\"[^\"]*\"" | grep -o "\"[^\"]*\"" | grep -o "[^\"]*"}°${font}
+

@@ -1,0 +1,31 @@
+root@SET88888P001 $ cat /usr/share/slim/themes/default/slim.theme 
+# SLIM Theme for LeTSAS 4 - 1920x1200
+# (cc) Gerardo Puerta gerardo@gnuardo.com
+
+# messages (ie: shutdown)
+msg_color               #FFFFFF
+msg_font                Verdana:size=18:bold:dpi=75
+msg_x                   50%
+msg_y                   45%
+msg_shadow_color        
+msg_shadow_xoffset      0
+msg_shadow_yoffset      0
+
+# background style
+background_style        stretch
+background_color        #002b36
+
+# input controls
+input_panel_x           50%
+input_panel_y           60%
+input_name_x            190
+input_name_y            152
+input_pass_x            190
+input_pass_y            210
+input_font          	Verdana:size=14:dpi:75
+input_color             #FFFFFF
+
+# turn off prompts
+#username_msg
+#password_msg
+

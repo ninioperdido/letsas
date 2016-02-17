@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Cierre
+NoDisplay=true
+Exec=jwm -exit
+Icon=/usr/share/icons/letsas/1280/cierre.png
+

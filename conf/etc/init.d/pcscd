@@ -1,0 +1,75 @@
+#!/bin/sh
+
+#. /etc/init.d/functions
+
+opts="start stop restart"
+usbdev=`lsusb | grep 46a | awk '{printf $2"/"$4}' | sed -e "s/://g"`
+if [ "$usbdev" == "" ]; then
+	usbdev=`lsusb | grep bf8 | awk '{printf $2"/"$4}' | sed -e "s/://g"`
+fi
+usb=`echo $usbdev | awk -F'/' '{printf $1}' | sed -e "s/0//g"`
+subusb=`echo $usbdev | awk -F'/' '{printf $2}' | sed -e "s/0//g"`
+
+start() {
+	echo "Starting pcscd"
+	sleep 2
+	if [ "`ps aux | grep -v grep | grep -v $$ | grep pcscd`" == "" ]; then
+		rm -fr /run/pcscd/*
+	fi
+	if [ "$usbdev" != "" ] && [ ! -e /dev/bus/usb/$usbdev ]
+	then
+		resetnode
+	fi
+	active=`ps aux | grep -v grep | grep "pcscd -a"`
+	if [ "$active" = "" ]; then
+		/usr/sbin/pcscd -a > /dev/null
+		sleep 1
+		/usr/sbin/pcscd --hotplug
+	fi
+	if [ $? -eq 0 ]; then
+		#print_status success
+		echo Success
+	else
+		#print_status failure
+		echo Failure
+	fi;
+}
+
+stop() {
+	echo "Stopping pcscd"
+	start-stop-daemon --stop --quiet --exec /usr/sbin/pcscd > /dev/null
+	if [ $? -eq 0 ]; then
+		#print_status success
+		echo Success
+	else
+		#print_status failure
+		echo Failure
+	fi;
+}
+
+resetnode() {
+	echo 0 > /sys/bus/usb/devices/usb${usb}/authorized
+	sleep 2
+	echo 1 > /sys/bus/usb/devices/usb${usb}/authorized
+	sleep 2
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	restart)
+		stop
+		sleep 3s
+		start
+		;;
+	*)
+		echo "Usage: $0 {start|stop|restart}"
+		exit 1
+		;;
+esac
+
+exit 0

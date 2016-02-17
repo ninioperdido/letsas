@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Icon=/usr/share/icons/letsas/explorador.png
+Name=Explorador
+GenericName=Explorador
+Categories=System;FileTools;FileManager;Utility;Core;GTK;
+Exec=pcmanfm %U
+StartupNotify=true
+Terminal=false
+MimeType=inode/directory;

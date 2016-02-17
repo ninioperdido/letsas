@@ -1,0 +1,9 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html><head>
+<title>Proxy error: 504 Connect to weather.yahooapis.com:80 failed: Network is unreachable.</title>
+</head><body>
+<h1>504 Connect to weather.yahooapis.com:80 failed: Network is unreachable</h1>
+<p>The following error occurred while trying to access <strong>http://weather.yahooapis.com/forecastrss?w=44418&amp;u=c</strong>:<br><br>
+<strong>504 Connect to weather.yahooapis.com:80 failed: Network is unreachable</strong></p>
+<hr>Generated Wed, 22 Jul 2015 12:46:46 CEST by Polipo on <em>localhost:8123</em>.
+</body></html>

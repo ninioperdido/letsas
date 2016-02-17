@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Dibujo e Imágenes
+Exec=/usr/lib/libreoffice/program/sdraw
+MimeType=application/vnd.oasis.opendocument.chart;application/vnd.oasis.opendocument.chart-template;application/vnd.oasis.opendocument.graphics;application/vnd.oasis.opendocument.graphics-template;application/vnd.oasis.opendocument.image;application/vnd.oasis.opendocument.image-template;
+

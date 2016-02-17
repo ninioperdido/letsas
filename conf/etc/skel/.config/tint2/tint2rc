@@ -1,0 +1,78 @@
+#---------------------------------------------
+# TINT2 CONFIG FILE
+#---------------------------------------------
+
+#---------------------------------------------
+# BACKGROUND AND BORDER
+#---------------------------------------------
+rounded = 0
+border_width = 0
+background_color = #ffffff 18
+border_color = #ffffff 18
+
+rounded = 5
+border_width = 0
+background_color = #ffffff 40
+border_color = #ffffff 50
+
+rounded = 5
+border_width = 0
+background_color = #ffffff 18
+border_color = #ffffff 70
+
+#---------------------------------------------
+# PANEL
+#---------------------------------------------
+panel_monitor = all
+panel_position = bottom center
+panel_size = 100% 117
+panel_margin = 0 0
+panel_padding = 7 0
+font_shadow = 0
+panel_background_id = 1
+wm_menu = 1
+panel_dock = 1
+panel_layer = bottom
+panel_items = L
+
+#---------------------------------------------
+# SYSTRAYBAR
+#---------------------------------------------
+systray = 1
+systray_padding = 0 4 5
+systray_background_id = 0
+systray_sort = left2right
+systray_icon_size = 0
+systray_icon_asb = 100 0 0
+
+#---------------------------------------------
+# MOUSE ACTION ON TASK
+#---------------------------------------------
+mouse_middle = none
+mouse_right = close
+mouse_scroll_up = toggle
+mouse_scroll_down = iconify
+
+#---------------------------------------------
+# AUTOHIDE OPTIONS
+#---------------------------------------------
+autohide = 0
+autohide_show_timeout = 0.3
+autohide_hide_timeout = 2
+autohide_height = 4
+strut_policy = minimum
+
+# Launchers
+launcher_item_app = /usr/share/applications/navegador.desktop
+launcher_item_app = /usr/share/applications/explorador.desktop
+launcher_item_app = /usr/share/applications/ofimatica.desktop
+launcher_item_app = /usr/share/applications/distrito.desktop
+launcher_item_app = /usr/share/applications/diraya.desktop
+# launcher_item_app = /usr/share/applications/generales.desktop
+# launcher_item_app = /usr/share/applications/especificos.desktop
+# launcher_item_app = /usr/share/applications/terminal.desktop
+launcher_item_app = /usr/share/applications/bloquear.desktop
+launcher_item_app = /usr/share/applications/cierre.desktop
+launcher_icon_size = 170
+launcher_padding = 154 0 -28
+

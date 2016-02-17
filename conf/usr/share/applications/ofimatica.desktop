@@ -1,0 +1,42 @@
+[Desktop Entry]
+Version=1.0
+Terminal=false
+NoDisplay=false
+Icon=/usr/share/icons/letsas/ofimatica.png
+Type=Application
+Categories=Office;X-Red-Hat-Base;X-SuSE-Core-Office;X-MandrivaLinux-Office-Other;
+Exec=libreoffice %F
+MimeType=application/vnd.openofficeorg.extension;
+Name=Ofimatica
+StartupNotify=true
+X-GIO-NoFuse=true
+StartupWMClass=libreoffice-startcenter
+
+##Define Actions
+Actions=Writer;Calc;Impress;Draw;Base;Math;
+
+[Desktop Action Writer]
+Name=Text Document
+Exec=libreoffice --writer
+
+[Desktop Action Calc]
+Name=Spreadsheet
+Exec=libreoffice --calc
+
+[Desktop Action Impress]
+Name=Presentation
+Exec=libreoffice --impress
+
+[Desktop Action Draw]
+Name=Drawing
+Exec=libreoffice --draw
+
+[Desktop Action Base]
+Name=Database
+Exec=libreoffice --base
+
+[Desktop Action Math]
+Name=Formula
+Exec=libreoffice --math
+
+##End of actions menu

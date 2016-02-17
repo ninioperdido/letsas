@@ -1,0 +1,13 @@
+service httpd
+{
+        socket_type     = stream
+        type            = UNLISTED
+        wait            = no
+        user            = root
+        protocol        = tcp
+        port            = 80
+        server          = /usr/sbin/httpd
+        server_args     = -i -h /var/www/ -c /etc/httpd.conf -r "LetSAS 4 - Portal de autogestión" 
+        disable         = no
+}
+

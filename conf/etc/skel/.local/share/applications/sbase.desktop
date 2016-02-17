@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Fórmulas Matemáticas
+Exec=/usr/lib/libreoffice/program/sdraw
+MimeType=application/vnd.oasis.opendocument.database;application/vnd.oasis.opendocument.database-template;application/msaccess;

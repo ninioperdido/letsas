@@ -1,0 +1,12 @@
+service x11vnc
+{
+        socket_type     = stream
+        type            = UNLISTED
+        wait            = no
+        user            = root
+        protocol        = tcp
+        port            = 5900
+        server          = /usr/bin/x11vnc
+        server_args     = -inetd -o /var/log/x11vnc.log -display :0 -auth /var/run/slim.auth -forever -bg -rfbauth /etc/x11vnc_passwd
+        disable         = no
+}

@@ -1,0 +1,5 @@
+[Desktop Entry]
+Type=Application
+Name=Hoja de Cálculo
+Exec=/usr/lib/libreoffice/program/scalc
+MimeType=application/x-scalc;application/vnd.oasis.opendocument.spreadsheet;application/vnd.oasis.opendocument.spreadsheet-template;application/vnd.ms-excel;application/msexcel;application/x-msexcel;application/x-ms-excel;application/x-excel;application/x-dos_ms_excel;application/xls;application/x-xls;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;application/x-scalc;

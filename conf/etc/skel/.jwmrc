@@ -1,0 +1,216 @@
+<?xml version="1.0"?>
+<JWM>
+   <IconPath>
+   /usr/share/icons/letsas
+   </IconPath>
+   <Group>
+      <Name>noticias</Name>
+      <Class>noticias</Class>
+      <Option>noborder</Option>
+      <Option>layer:below</Option>
+      <Option>nofocus</Option>
+      <Option>nolist</Option>
+      <Option>notitle</Option>
+      <Option>sticky</Option>
+   </Group>
+   <Group>
+      <Name>widgets</Name>
+      <Class>widgets</Class>
+      <Option>nomin</Option>
+      <Option>sticky</Option>
+      <Option>nofocus</Option>
+      <Option>nomove</Option>
+      <Option>noresize</Option>
+      <Option>layer:below</Option>
+   </Group>
+   <Group>
+      <Name>tint2</Name>
+      <Class>tint2</Class>
+      <Option>nomin</Option>
+      <Option>sticky</Option>
+      <Option>nofocus</Option>
+      <Option>nomove</Option>
+      <Option>noresize</Option>
+      <Option>layer:below</Option>
+   </Group>
+   <MenuStyle>
+      <Class>4</Class>
+      <Font antialias="true">xft:dejavusans-24</Font>
+      <Foreground>#ffffff</Foreground>
+      <Background>#262a33</Background>
+      <Outline>#262a33</Outline>
+      <Opacity>1</Opacity>
+      <ActiveForeground>#ffffff</ActiveForeground>
+      <ActiveBackground>#32c644</ActiveBackground>
+   </MenuStyle>
+   <MenuStyle>
+      <Class>5</Class>
+      <Font antialias="true">xft:dejavusans-24</Font>
+      <Foreground>#ffffff</Foreground>
+      <Background>#262a33</Background>
+      <Outline>#262a33</Outline>
+      <Opacity>1</Opacity>
+      <ActiveForeground>#ffffff</ActiveForeground>
+      <ActiveBackground>#df562c</ActiveBackground>
+   </MenuStyle>
+   <MenuStyle>
+      <Class>6</Class>
+      <Font antialias="true">xft:dejavusans-24</Font>
+      <Foreground>#ffffff</Foreground>
+      <Background>#262a33</Background>
+      <Outline>#262a33</Outline>
+      <Opacity>1</Opacity>
+      <ActiveForeground>#ffffff</ActiveForeground>
+      <ActiveBackground>#9ed055</ActiveBackground>
+   </MenuStyle>
+   <MenuStyle>
+      <Class>7</Class>
+      <Font antialias="true">xft:dejavusans-24</Font>
+      <Foreground>#ffffff</Foreground>
+      <Background>#262a33</Background>
+      <Outline>#262a33</Outline>
+      <Opacity>1</Opacity>
+      <ActiveForeground>#ffffff</ActiveForeground>
+      <ActiveBackground>#d6ba32</ActiveBackground>
+   </MenuStyle>
+   <MenuStyle>
+      <Font antialias="true">xft:dejavusans-24</Font>
+      <Foreground>#ffffff</Foreground>
+      <Background>#262a33</Background>
+      <Outline>#262a33</Outline>
+      <Opacity>1</Opacity>
+      <ActiveForeground>#ffffff</ActiveForeground>
+      <ActiveBackground>#df562c</ActiveBackground>
+   </MenuStyle>
+   <WindowStyle>
+       <Font antialias="true">xft:DejaVuSans-6:bold</Font>
+       <Width>6</Width>
+      <Height>24</Height>
+      <Active>
+        <Text>#bababa</Text>
+        <Title>#474c52:#303438</Title>
+        <Outline>grey</Outline>
+      </Active>
+      <Inactive>
+        <Text>white</Text>
+        <Title>#676a6d:#7e8b9b</Title>
+        <Outline>grey</Outline>
+      </Inactive>
+   </WindowStyle>
+   <PopupStyle enabled="true">
+        <Font antialias="true">xft:DejaVuSansLight-6</Font>
+        <Outline>black</Outline>
+        <Foreground>black</Foreground>
+        <Background>gray</Background>
+   </PopupStyle>
+   <TaskListStyle>
+  	<Font antialias="true">xft:DejaVuSansLight-6</Font>
+  	<ActiveForeground>black</ActiveForeground>
+  	<ActiveBackground>gray:#C1E9EB</ActiveBackground>
+  	<Foreground>gray</Foreground>
+  	<Background>#4f546a</Background>
+   </TaskListStyle>
+   <TrayStyle>
+  	<Font antialias="true">xft:DejaVuSansLight-6</Font>
+  	<Background>#474c52</Background>
+  	<Foreground>white</Foreground>
+  	<Opacity>0.5</Opacity>
+   </TrayStyle>
+
+   <!-- Double click speed (in milliseconds) -->
+   <DoubleClickSpeed>400</DoubleClickSpeed>
+   <!-- Double click delta (in pixels) -->
+   <DoubleClickDelta>2</DoubleClickDelta>
+   <!-- The focus model (sloppy or click) -->
+   <FocusModel>click</FocusModel>
+   <!-- The snap mode (none, screen, or border) -->
+   <SnapMode distance="10">border</SnapMode>
+   <!-- The move mode (outline or opaque) -->
+   <MoveMode>outline</MoveMode>
+   <!-- The resize mode (outline or opaque) -->
+   <ResizeMode>outline</ResizeMode>
+
+   <RootMenu height="64" onroot="4" label="APLICACIONES DE DISTRITO" labeled="true" class="4">
+       <Program icon="AyudaInformatica.png" label="Ayuda Ofimatica">/opt/Citrix/ICAClient/wfica.bin /opt/Citrix/ICAClient/config/Ayuda_Ofimatica-Usuario_Diraya.ini</Program>
+       <Program icon="navegador.png" label="Navegador">/opt/Citrix/ICAClient/wfica.bin /opt/Citrix/ICAClient/config/Navegador-Usuario_Ofimatica.ini</Program>
+       <Program icon="visados.png" label="Correo">/opt/Citrix/ICAClient/wfica.bin /opt/Citrix/ICAClient/config/Correo-Usuario_Ofimatica.ini</Program>
+       <Program icon="ofimatica.png" label="Hoja de Calculo">/opt/Citrix/ICAClient/wfica.bin /opt/Citrix/ICAClient/config/Hoja_de_Calculo-Usuario_Ofimatica.ini</Program>
+       <Program icon="ofimatica.png" label="Procesador de Textos">/opt/Citrix/ICAClient/wfica.bin /opt/Citrix/ICAClient/config/Procesador_Textos-Usuario_Ofimatica.ini</Program>
+       <Program icon="ofimatica.png" label="Presentaciones">/opt/Citrix/ICAClient/wfica.bin /opt/Citrix/ICAClient/config/Presentaciones-Usuario_Ofimatica.ini</Program>
+       <Program icon="navegador.png" label="Intranet">/opt/Citrix/ICAClient/wfica.bin /opt/Citrix/ICAClient/config/Intranet-Usuario_Ofimatica.ini</Program>
+   </RootMenu> 
+   <!-- <RootMenu height="64" onroot="5" label="PLANES ESPECIFICOS" labeled="true" class="5">
+     <Program icon="diabetes.png" label="Plan integral diabetes">midori</Program>
+     <Program icon="infantil.png" label="Atención infantil temprana">midori</Program>
+     <Program icon="vacuna.png" label="Vacunas">midori</Program>
+     <Program icon="diabaco.png" label="Diábaco">midori</Program>
+     <Program icon="palante.png" label="ClickSalud Palante">midori</Program>
+     <Program icon="3confianza.png" label="Tercero de confianza"</Program>
+   </RootMenu> -->
+   <!-- <RootMenu height="64" onroot="6" label="HISTORIA DIGITAL DE SALUD" labeled="true" class="6">
+     <Program icon="diraya_informa.png" label="Diraya Informa">midori</Program>
+     <Program icon="historia_salud.png" label="Historia de salud">/opt/Citrix/ICAClient/wfica /opt/Citrix/ICAClient/config/DirayaPrimaria.ini</Program>
+     <Program icon="historia_urgencias.png" label="Historia de salud en urgencias">midori</Program>
+     <Program icon="configuracion.png" label="Configuración">midori</Program>
+      <Program icon="configuracion_urgencias.png" label="Configuración en urgencias">midori</Program>
+     <Program icon="historia_unica.png" label="Historia Única">midori</Program>
+     <Program icon="modulo_listados.png" label="Módulo de listados">midori</Program>
+   </RootMenu> -->
+   <!-- <RootMenu height="64" onroot="7" label="MÓDULOS GENERALES" labeled="true" class="7">
+     <Program icon="estructura.png" label="Estructura">midori</Program>
+     <Program icon="maco.png" label="Maco">midori</Program>
+     <Program icon="citacion.png" label="Citacion">midori</Program>
+     <Program icon="datosconexion.png" label="Datos de conexión">midori</Program>
+     <Program icon="visados.png" label="Visados">midori</Program>
+      <Program icon="sipad.png" label="SIPAD">midori</Program>
+     <Program icon="gadu.png" label="GADU">midori</Program>
+   </RootMenu>-->
+<!-- Key bindings -->
+ <Key key="Up">up</Key>
+ <Key key="Down">down</Key>
+ <Key key="Right">right</Key>
+ <Key key="Left">left</Key>
+ <Key key="h">left</Key>
+ <Key key="j">down</Key>
+ <Key key="k">up</Key>
+ <Key key="l">right</Key>
+ <Key key="Return">select</Key>
+ <Key key="Escape">escape</Key>
+ <Key mask="A" key="Tab">nextstacked</Key>
+ <Key mask="A" key="F4">close</Key>
+ <Key mask="A" key="#">desktop#</Key>
+ <Key mask="A" key="F2">window</Key>
+ <Key mask="A" key="F9">minimize</Key>
+ <Key mask="A" key="F10">maximize</Key>
+ <Key mask="A" key="Right">rdesktop</Key>
+ <Key mask="A" key="Left">ldesktop</Key>
+ <Key mask="A" key="Up">udesktop</Key>
+ <Key mask="A" key="Down">ddesktop</Key>
+ <Key mask="AC" key="8">exec:rxvt</Key>
+ <Key keycode="115">showdesktop</Key>
+ <Key keycode="116">showtray</Key>
+
+ <RootMenu height="64" onroot="3">
+   <Program icon="navegador.png" label="Navegador">midori</Program>
+   <Program icon="explorador.png" label="Gestor de ficheros">pcmanfm</Program>
+   <Program icon="ofimatica.png" label="Ofimatica">/usr/lib/libreoffice/program/soffice</Program>
+   <!-- <Program icon="terminal.png" label="Terminal">rxvt</Program> -->
+   <Separator/>
+   <Program icon="menu_mod_gen.png" label="Mostrar Barra de Botones">kill -SIGUSR1 `pidof tint2`</Program>
+   <Program icon="cierre.png" label="Salir">jwm -exit</Program>
+ </RootMenu>
+
+<!-- Task bar -->
+ <Tray autohide="true" insert="right" valign="top" halign="center" x="50" height="48" width="700">
+   <TaskList maxwidth="128" border="false"/>
+ </Tray>
+
+<!--    <Tray x="-40" y="185" width=48" layer="0" border="0" layout="vertical">
+        <TrayButton border="0" popup="Aplicaciones del distrito" icon="aplicaciones_distrito.png">exec:rxvt</TrayButton>
+        <TrayButton border="0" popup="Diraya" icon="diraya.png">root:5</TrayButton>
+        <TrayButton border="0" popup="Módulos Generales" icon="modulos_generales.png">root:7</TrayButton>
+        <TrayButton border="0" popup="Planes Expecificos" icon="planes_especificos.png">root:6</TrayButton>
+    </Tray>
+-->
+</JWM>
+

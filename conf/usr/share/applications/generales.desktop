@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Modulos Generales
+Exec=xdotool click 7
+Type=Application
+Terminal=false
+StartupNotify=true
+Icon=/usr/share/icons/letsas/generales.png
+

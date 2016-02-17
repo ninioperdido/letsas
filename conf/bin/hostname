@@ -1,0 +1,18 @@
+#!/bin/sh
+hostname="`which busybox` hostname"
+hostsfile="/etc/hosts"
+hostb=`$hostname`
+$hostname $@
+host=`$hostname`
+if [ "`grep \"127.0.0.1\" $hostsfile | grep localhost`" != "" ]; then
+	if [ "$hostb" != "$host" -o "`grep \"127.0.0.1\" $hostsfile | grep localhost | grep $host`" == "" ]; then
+		line=`grep "127.0.0.1" $hostsfile | grep localhost`
+		sed -i "s/$line/127.0.0.1\tlocalhost $host/g" $hostsfile
+		if [ "`grep \"::1\" $hostsfile | grep localhost`" != "" ]; then
+			line=`grep "::1" $hostsfile | grep localhost`
+			sed -i "s/$line/::1\t\tlocalhost $host/g" $hostsfile 
+		fi
+	fi
+fi
+exit $?
+

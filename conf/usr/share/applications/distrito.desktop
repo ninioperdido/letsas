@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Aplicaciones del Distrito
+Exec=xdotool click 4
+Type=Application
+Icon=/usr/share/icons/letsas/distrito.png
+

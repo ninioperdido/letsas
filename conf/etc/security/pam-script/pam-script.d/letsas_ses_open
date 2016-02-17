@@ -1,0 +1,57 @@
+if [[ "$(id -u $PAM_USER)" != "0" ]]; then
+    ADM_USER=$(echo $PAM_USER | sed 's/.*\(.\).$/\1/')
+    # Not ADM User
+    if [[ "$ADM_USER" == [0-9] ]]
+    then
+        LETSAS_USER=$(echo $PAM_USER | sed 's/^\(.*\)\(.\)$/\1/')
+        LETSAS_USER=$LETSAS_USER$(echo $PAM_USER | sed 's/.*\(.\)$/\1/' | tr '[:lower:]' '[:upper:]')
+    else
+        LETSAS_USER="$PAM_USER"
+    fi
+    MYUID=$(id -u $LETSAS_USER)
+
+    PIDR="[letsas_ses_open] "
+    LOG="/var/log/messages"
+
+    mecho () {
+	echo "$PIDR$1" >> /var/log/messages
+    }
+
+    # Adding user to several groups
+    addgroup $LETSAS_USER tty
+    mecho "Adding $LETSAS_USER to tty group" 
+    addgroup $LETSAS_USER lp
+    mecho "Adding $LETSAS_USER to lp group"
+
+# Retrieving password from kernel keystore
+    PASS=$(keyctl print $(keyctl request user $LETSAS_USER))
+    mecho "$PASS"
+# Extracting homeDirectory info from LDAP
+    mecho "Retrieving home directory info from LDAP, user $LETSAS_USER"
+
+# Mounting remote homeDir
+    HOME=$(echo $HOME | awk '{print $5}' | sed -e 's/\\/\//g')
+    MD="/home/$LETSAS_USER/dmsas_hd"
+
+    mecho "Mounting $LETSAS_USER home directory from $HOME"
+# Mounting dir
+    mkdir -p $MD
+    chown -R $LETSAS_USER $MD
+    echo "mount.cifs $HOME $MD -o user=$LETSAS_USER,pass=,uid=$MYUID"
+    mount.cifs $HOME $MD -o user=$LETSAS_USER,pass=$PASS,uid=$MYUID >> /var/log/messages 2>&1
+# Mounting group unit
+smbinfo="/etc/sysconfig/smb.info"
+    if [ -f $smbinfo ]; then
+        . $smbinfo
+        MP="/home/${LETSAS_USER}/${SMB_DEST}"
+        mkdir -p $MP
+        chown -R $LETSAS_USER $MP
+        if [ "${SMB_DOM}" == "" ]; then
+            dom=""
+         else
+            dom=",dom=${SMB_DOM}"
+        fi 
+        echo "mount.cifs //${SMB_IP}${SMB_PATH} $MP -o user=$SMB_USER,pass=${dom},uid=$MYUID"
+        mount.cifs //${SMB_IP}${SMB_PATH} $MP -o user=$SMB_USER,pass=${SMB_PASS}${dom},uid=$MYUID
+    fi
+fi

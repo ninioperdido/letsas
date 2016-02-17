@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Bloquear
+NoDisplay=true
+Exec=xautolock -locknow
+Icon=/usr/share/icons/letsas/1280/bloqueo.png
+

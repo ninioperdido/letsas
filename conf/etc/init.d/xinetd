@@ -1,0 +1,72 @@
+#!/bin/sh
+
+opts="{start|stop|reload|dump|check|restart}"
+status=0
+option=$1
+
+start() {
+	echo "Starting xinetd"
+	/sbin/start-stop-daemon --start --exec /usr/sbin/xinetd -- \
+		-pidfile /var/run/xinetd.pid ${XINETD_OPTS}
+	status=$?
+}
+
+stop() {
+	echo "Stopping xinetd"
+	/sbin/start-stop-daemon --stop --quiet --pidfile /var/run/xinetd.pid
+	status=$?
+        if [ "$option" == "restart" ]; then
+                if [ $status -eq 0 ]; then
+                        echo Success
+                else
+                        echo Failure
+                fi
+        fi
+}
+
+do_sig() {
+	local sig=$1 ; shift
+	echo "$*"
+	echo la senial es $sig
+	/sbin/start-stop-daemon -K --signal ${sig} --pidfile /var/run/xinetd.pid
+	status=$?
+}
+
+reload() { do_sig HUP  "Reloading configuration" ; }
+
+dump()   { do_sig USR1 "Dumping configuration" ; }
+
+check()  { do_sig IOT  "Performing Consistency Check" ; }
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	reload)
+		reload
+		;;
+	restart)
+		stop
+		sleep 1
+		start
+		;;
+	dump)
+		dump
+		;;
+	check)
+		check
+		;;
+	*)
+		echo "Usage: $0 $opts"
+		exit 1
+		;;
+esac
+if [ $status -eq 0 ]; then
+	echo Success
+else
+	echo Failure
+fi
+exit $status

@@ -1,0 +1,28 @@
+Xft.dpi: 96
+Xft.antialias: 1
+Xft.hinting: 1
+Xft.hintstype: hintfull
+Xft.rgba: rgb
+#rxvt*font:-misc-termsyn.icons-medium-r-normal--13-120-75-75-c-60-iso8859-1
+rxvt*foreground: white
+rxvt*background: black
+rxvt*transparent: true
+rxvt*shading: 15
+rxvt*scrollBar: false
+*color0:  #2E3436
+*color1:  #a40000
+*color2:  #4E9A06
+*color3:  #C4A000
+*color4:  #3465A4
+*color5:  #75507B
+*color6:  #ce5c00
+*color7:  #babdb9
+*color8:  #555753
+*color9:  #EF2929
+*color10: #8AE234
+*color11: #FCE94F
+*color12: #729FCF
+*color13: #AD7FA8
+*color14: #fcaf3e
+*color15: #EEEEEC
+

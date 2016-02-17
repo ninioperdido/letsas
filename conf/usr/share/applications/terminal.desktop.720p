@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Terminal
+Type=Application
+Comment=Terminal
+Exec=rxvt
+TryExec=rxvt
+Icon=/usr/share/icons/letsas/1280/terminal.png
+Categories=System;TerminalEmulator;

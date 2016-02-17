@@ -1,0 +1,12 @@
+# Adding user to several groups
+# Unmounting remote home dir
+MYUID=$(id -u $PAM_USER)
+if [[ "$MYUID" != "0" ]]; then
+    echo "UnMounting $PAM_USER home directory" >> /var/log/messages
+    umount /home/$PAM_USER/dmsas_hd
+    smbinfo="/etc/sysconfig/smb.info"
+    if [ -f $smbinfo ]; then
+	. $smbinfo
+	umount /home/$PAM_USER/$SMB_DEST
+    fi
+fi

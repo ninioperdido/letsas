@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Planes Especificos
+Exec=xdotool click 5
+Type=Application
+Terminal=false
+StartupNotify=true
+Icon=/usr/share/icons/letsas/1280/especificos.png
+

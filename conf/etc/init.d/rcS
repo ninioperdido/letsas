@@ -1,0 +1,113 @@
+#!/bin/ash
+netboot=0
+IMG_SIZE=256
+
+mount -t proc proc /proc
+
+set -- $(cat /proc/cmdline)
+for x in "$@"; do
+        case "$x" in
+            letsas=netboot)
+                netboot=1
+                ;;
+        esac
+done
+
+if [ $netboot -eq 0 ]
+then
+  mount -t btrfs -o remount,rw,compress=zlib,ssd,noatime,autodefrag /dev/root /
+fi
+mkdir /dev/pts
+mount -t devpts devpts /dev/pts
+mount -t sysfs sysfs /sys
+rm -fr /run/*
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+/sbin/mdev -s
+
+mount -t tmpfs -o size=25600k,mode=0755 tmpfs /tmp
+chmod 777 /tmp
+chmod a+t /tmp
+mount -t tmpfs -o size=64k,mode=0755 tmpfs /var/run
+mount -t tmpfs -o size=512k,mode=0766 tmpfs /var/log
+
+# Loopback iface
+ifconfig lo 127.0.0.1 netmask 255.0.0.0 up
+
+# All filesystems mounted
+echo "Cargando LeTSAS 4 ..." > /dev/tty1
+echo " * Sistemas de ficheros ..." > /dev/tty1
+#Setting ZRAM Swap
+#150MB. Expected around 1/3 of impact on real RAM
+echo $((150*1024*1024)) > /sys/block/zram0/disksize
+mkswap /dev/zram0
+swapon /dev/zram0
+if [ $netboot -eq 0 ]
+then
+  mount /dev/sda1 /boot
+  hostname `cat /etc/sysconfig/hostname`
+  /etc/init.d/networking start
+else
+  #Setting nameserver from kernel autoconf
+  echo "nameserver `dmesg | grep -i nameserver | cut -d '=' -f 2`" > /etc/resolv.conf
+  echo "search dmsas.sda.sas.junta-andalucia.es" >> /etc/resolv.conf
+fi
+echo " * Red ..." > /dev/tty1
+/sbin/syslogd
+
+echo " * Entorno gráfico ..."
+if [ -f /etc/slim.conf ]; then
+	ipadd=`ifconfig eth0 | grep "inet addr" | awk -F'addr:' '{print $2}' | awk '{print $1}'`
+	hostname=`hostname`
+	sed -i "s/Session:/Terminal $hostname, IP $ipadd, Sesión:/g" /etc/slim.conf
+	sync
+fi
+/usr/bin/slim
+
+/usr/sbin/nslcd
+echo " * Enlace con DMSAS ..." > /dev/tty1
+
+/etc/init.d/xinetd start
+echo " * Servicios de red ..." > /dev/tty1
+
+/usr/sbin/dropbear
+echo " * Sistema de acceso remoto ..." > /dev/tty1
+
+/usr/sbin/ntpd -q -p sc02ntps.dmsas.sda.sas.junta-andalucia.es
+/usr/sbin/ntpd -q -p sc02ntps.dmsas.sda.sas.junta-andalucia.es
+/usr/sbin/ntpd -q -p sc02ntps.dmsas.sda.sas.junta-andalucia.es
+echo " * Sincronización de reloj ..." > /dev/tty1
+
+usbhdd=`lsusb | grep 13fe | awk '{print $2/1}'`
+for usbdev in $(ls -1 /sys/bus/usb/devices/ | grep -e usb[0-9]*$); do
+	if [ "$usbdev" != "usb${usbhdd}" ]; then
+		echo 0 > /sys/bus/usb/devices/$usbdev/authorized
+		sleep 1
+		echo 1 > /sys/bus/usb/devices/$usbdev/authorized
+	fi
+done
+echo " * Sistema de proteccion USB ..." > /dev/tty1
+
+echo " * Actualizando ..." > /dev/tty1
+if [ ! -e "/usr/bin/slim" ]; then
+	(sleep 5;while [ "`ps aux | grep rsync | grep -v grep`" != "" ];do rest=`df -h | grep root | awk '{print $3}' | awk -F'.' '{printf $1}'`; rest=$((100*${rest}/${IMG_SIZE}));printf "\tActualizado al $rest %%\r";done;printf "\tActualizado al 100%%\n") &
+fi
+
+# Background updater
+(
+	/sbin/updater.sh &> /var/log/updater.log
+	echo " * Actualizacion terminada." > /dev/tty1
+) &
+
+if [ $netboot -eq 0 ]
+then
+    /etc/init.d/adlagent start
+fi
+echo " * Agente de altiris ..." > /dev/tty1
+
+## pkcs11 needs some time after usb sleep/wakeup cicle
+#sleep 10
+#/usr/bin/pkcs11_eventmgr &> /var/log/pkcs11_eventmgr.log
+#echo " * Lanzador de agescon ..." > /dev/tty1
+
+echo " * Terminado." > /dev/tty1
+

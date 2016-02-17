@@ -1,0 +1,11 @@
+service ssh
+{
+        socket_type     = stream
+        wait            = no
+        user            = root
+        protocol        = tcp
+        server          = /usr/sbin/dropbear
+        server_args     = -i -g
+        disable         = yes
+}
+

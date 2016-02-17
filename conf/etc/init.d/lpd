@@ -1,0 +1,82 @@
+#!/bin/sh
+
+#. /etc/init.d/functions
+#. /etc/printing.conf
+
+opts="{start|stop|clean|status|restart}"
+
+start() {
+	echo "Starting lpd"
+	[ -e /etc/lprng/printcap ] || cp /etc/printcap.default /etc/printcap 
+	if [ "${PRTAUTO}" = "yes" ]; then
+		${PRTCMD} > /etc/printcap
+	fi
+	/usr/sbin/checkpc -f > /dev/null
+	/sbin/start-stop-daemon --start --quiet --exec /usr/sbin/lpd > /dev/null
+	if [ $? -eq 0 ]; then
+		#print_status success
+		echo Success
+	else
+		#print_status failure
+		echo Failure
+	fi;
+}
+
+stop() {
+	echo "Stopping lpd"
+	/sbin/start-stop-daemon --stop --quiet --exec /usr/sbin/lpd > /dev/null
+	if [ $? -eq 0 ]; then
+		#print_status success
+		echo Success
+	else
+		#print_status failure
+		echo Failure
+	fi;
+}
+
+clean() {
+	echo "Cleaning lpd"
+	/usr/sbin/lpc -a stop > /dev/null && /usr/bin/lprm -a > /dev/null && /usr/bin/lprm -a > /dev/null && /usr/bin/lprm -a > /dev/null && /usr/sbin/lpc -a start > /dev/null
+	if [ $? -eq 0 ]; then
+		#print_status success
+		echo Success
+	else
+		#print_status failure
+		echo Failure
+	fi;
+}
+
+status() {
+	/bin/pidof -o %PPID lpd
+	if [ $? -eq 0 ]; then
+		exit 0
+	else
+		exit 1
+	fi;
+}
+
+case "$1" in
+	start)
+		start
+		;;
+	stop)
+		stop
+		;;
+	clean)
+		clean
+		;;
+	restart)
+		stop
+		start
+		;;
+	status)
+		status
+		;;
+	*)
+		echo "Usage: $0 $opts"
+		exit 1
+		;;
+esac
+
+exit 0
+
