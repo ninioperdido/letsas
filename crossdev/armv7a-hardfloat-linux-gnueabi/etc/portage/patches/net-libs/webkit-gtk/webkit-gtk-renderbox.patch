@@ -1,0 +1,19 @@
+Index: trunk/Source/WebCore/rendering/RenderBox.cpp
+===================================================================
+--- a/trunk/Source/WebCore/rendering/RenderBox.cpp
++++ b/trunk/Source/WebCore/rendering/RenderBox.cpp
+@@ -1841,4 +1841,6 @@
+ 
+     RenderBlock* cb = containingBlock();
++    if (!cb)
++        return LayoutUnit();
+     return cb->availableLogicalWidth();
+ }
+@@ -1852,4 +1854,6 @@
+ 
+     RenderBlock* cb = containingBlock();
++    if (!cb)
++        return LayoutUnit();
+     return cb->availableLogicalHeight(heightType);
+ }
+

@@ -1,0 +1,9 @@
+sys-apps/baselayout
+sys-libs/glibc
+sys-apps/busybox
+sys-libs/zlib
+sys-apps/xinetd
+net-misc/dropbear
+dev-libs/glib
+net-misc/rsync
+

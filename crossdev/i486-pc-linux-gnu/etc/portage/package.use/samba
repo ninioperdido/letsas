@@ -1,0 +1,2 @@
+net-fs/samba -addns -ads -acl aio client pam -ldap -server smbclient winbind netapi minimal
+

@@ -1,0 +1,1 @@
+sys-auth/pam_pkcs11 pcsc-lite ldap -nss

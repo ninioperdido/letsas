@@ -1,0 +1,1 @@
+net-libs/webkit-gtk X -introspection -gstreamer -geoloc -egl -jit -opengl -webgl -unique

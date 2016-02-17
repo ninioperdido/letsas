@@ -1,0 +1,16 @@
+net-libs/webkit-gtk
+x11-libs/gtk+
+www-client/midori **
+dev-libs/icu
+dev-perl/pcsc-perl
+sys-kernel/vanilla-sources
+dev-libs/opendnie
+sys-auth/pam_pkcs11
+sys-auth/pam_keystore **
+sys-apps/pcsc-tools
+sys-auth/nss-pam-ldapd
+sys-auth/pam-script
+net-misc/rsync
+net-misc/icaclient
+x11-misc/tint2
+

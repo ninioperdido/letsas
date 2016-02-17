@@ -1,0 +1,10 @@
+Index: trunk/Source/WebCore/rendering/RenderView.cpp
+===================================================================
+--- a/trunk/Source/WebCore/rendering/RenderView.cpp
++++ b/trunk/Source/WebCore/rendering/RenderView.cpp
+@@ -1095,5 +1095,5 @@
+ {
+     layer()->repaintBlockSelectionGaps();
+-    setSelection(0, -1, 0, -1, RepaintNewMinusOld);
++    setSelection(nullptr, -1, nullptr, -1, RepaintNewMinusOld);
+ }

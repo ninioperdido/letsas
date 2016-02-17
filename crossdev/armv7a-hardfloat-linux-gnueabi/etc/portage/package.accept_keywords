@@ -1,0 +1,12 @@
+sys-kernel/vanilla-sources
+net-misc/rsync
+media-fonts/termsyn **
+dev-libs/gnulib **
+www-client/midori **
+sys-auth/nss-pam-ldapd
+sys-auth/pam_keystore **
+sys-auth/pam_pkcs11
+sys-auth/pam-script
+dev-libs/opendnie
+net-libs/webkit-gtk
+dev-libs/icu

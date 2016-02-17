@@ -1,0 +1,8 @@
+=sys-auth/pam_keystore-0.1.3
+
+# required by net-libs/webkit-gtk-2.6.4
+# required by www-client/midori-0.5.9::letsas
+# required by @selected
+# required by @world (argument)
+# /var/letsas/crossdev/i486-pc-linux-gnu/etc/portage/package.mask:
+=x11-libs/gtk+-3.12.2

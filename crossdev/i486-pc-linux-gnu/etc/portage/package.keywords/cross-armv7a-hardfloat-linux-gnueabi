@@ -1,0 +1,5 @@
+cross-armv7a-hardfloat-linux-gnueabi/binutils arm ~arm -x86 -~x86
+cross-armv7a-hardfloat-linux-gnueabi/gcc arm ~arm -x86 -~x86
+cross-armv7a-hardfloat-linux-gnueabi/linux-headers arm ~arm -x86 -~x86
+cross-armv7a-hardfloat-linux-gnueabi/glibc arm ~arm -x86 -~x86
+cross-armv7a-hardfloat-linux-gnueabi/gdb arm ~arm -x86 -~x86
