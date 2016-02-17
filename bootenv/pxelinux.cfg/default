@@ -1,0 +1,14 @@
+default menu.c32
+prompt 0
+
+menu title LeTSAS Boot Menu
+NOESCAPE 1
+ALLOWOPTIONS 1
+MENU AUTOBOOT Starting LeTSAS in # seconds
+
+label LeTSAS
+ menu default
+ menu label LeTSAS 4.0
+ kernel /boot/bzImage
+ timeout 25
+ append ip=dhcp letsas=netboot root=/dev/nfs rw nfsroot=192.168.56.1:/tftproot/,nfsvers=3 quiet console=/dev/tty1 vga=792 nomodeset
